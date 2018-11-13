@@ -36,16 +36,19 @@
         </p>-->
         <fieldset>
             <legend>Personalizar</legend>
-            Número: <input title='Não precisa colocar o "55" nem "+55"' type="tel" class="tel" placeholder="DDD + número">
+            Número da lanchonete: <input title='Não precisa colocar o "55" nem "+55"' type="tel" class="tel" placeholder="DDD + número">
             <br><br>
             Mensagem:<br>
-            <textarea rows="4" cols="40" placeholder="Personalize sua mensagem: ex.: Olá, gostaria de fazer um pedido">Olá, gostaria de fazer um pedido:</textarea>
+            <textarea class="msg" rows="4" cols="40" placeholder="Personalize sua mensagem: ex.: Olá, gostaria de fazer um pedido">Olá, gostaria de fazer um pedido:</textarea>
             <hr>
             Lanche(s): 
             <select class="lanche"></select>
             <br><br>
             <strong>Retirar itens</strong>: <br>
             <select multiple="multiple" size="15" class="itens"></select>
+            <br><br>
+            Mensagem posterior adicional:<br>
+            <textarea class="msg-complementar" rows="4" cols="40" placeholder="ex.: Quanto tempo até a entrega?">Quanto tempo até a entrega?</textarea>
         </fieldset>
         <h4>Resultado final:</h4>
         <output></output>
@@ -89,11 +92,11 @@
                     return false;
                 });
                 
-                $('.lanche,.itens').change(montaPedido);
+                $('.lanche,.itens,textarea').change(montaPedido);
                 $('.lanche,.itens').click(montaPedido);
                 
                 function montaPedido() {
-                    var textComposer = $('textarea').val()+" "+$('.lanche').val();
+                    var textComposer = $('.msg').val()+" um "+$('.lanche').val();
                     var retirar = $('.itens').val();
 
                     if (retirar) {
@@ -101,7 +104,9 @@
                             textComposer += " sem "+item+";"
                         });
                     }
-
+                    
+                    textComposer += " "+$('.msg-complementar').val();
+                    
                     $('output').html(textComposer);
                 }  
 
