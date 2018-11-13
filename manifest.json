@@ -1,0 +1,11 @@
+{
+    "short_name": "Lanches",
+    "author": "Lucas Marques Dutra",
+    "name": "Peça lanches pelo WhatApp",
+    "start_url": "https://terremoth.github.io/lanchepelowhats/?utm_source=homescreen",
+    "background_color": "#F44336",
+    "Theme_color": "#F44336",
+    "display": "standalone",
+    "version": "1.0",
+    "default_locale": "pt-br"
+}
