@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- 
     Author: Lucas Marques Dutra <dutra.astro@gmail.com> (c) 2018
+    Collaborator: Mario Augusto Paglia Junior <mario@h1code.com.br> (c) 2018
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,112 +17,88 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 -->
 <html lang="pt-br">
-    <head>
-        <title>Lanche pelo WhatsApp</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link media="all" href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
-        <link rel="shortcut icon" href="http://www.icons101.com/icon_ico/id_13859/burger.ico" type="image/x-icon" />
-        <meta name="description" content="Peça lanche facilmente pelo WhatsApp com essa ferramenta" />
-        <meta name="keywords" content="lanche, whatsapp, whats, comida, hamburger" />
-        <meta name="robots" content="index, follow" />
-        <link rel="manifest" href="manifest.json">
-        <style>*{font-family: "Open Sans", sans-serif;}</style>
-    </head>
-    <body>
-        <h1>Peça seu lanche</h1>
-        <h6>* Para a aplicação funcionar, você precisa estar logado no WhatsApp Web</h6>
-<!--        <p>
-            Lembrar minhas escolhas: <input type="checkbox">        
-        </p>-->
-        <fieldset>
-            <legend>Personalizar</legend>
-            Número da lanchonete: <input title='Não precisa colocar o "55" nem "+55"' type="tel" class="tel" placeholder="DDD + número">
-            <br><br>
-            Mensagem:<br>
-            <textarea class="msg" rows="4" cols="40" placeholder="Personalize sua mensagem: ex.: Olá, gostaria de fazer um pedido">Olá, gostaria de fazer um pedido:</textarea>
-            <hr>
-            Lanche(s): 
-            <select class="lanche"></select>
-            <br><br>
-            <strong>Retirar itens</strong>: <br>
-            <select multiple="multiple" size="15" class="itens"></select>
-            <br><br>
-            Mensagem posterior adicional:<br>
-            <textarea class="msg-complementar" rows="4" cols="40" placeholder="ex.: Quanto tempo até a entrega?">Quanto tempo até a entrega?</textarea>
-        </fieldset>
-        <h4>Resultado final:</h4>
-        <output></output>
-        <br><br>
-        <button class="pedir" type="button">Pedir Lanche!</button>
-        <br>
-        <br>
-        <footer>
-        <br><br><br><br>
-        Views <a href="http://www.reliablecounter.com" target="_blank"><img src="https://www.reliablecounter.com/count.php?page=terremoth.github.io/lanchepelowhats&digit=style/plain/3/&reloads=1" alt="" title="" border="0"></a>
-        <hr />
-        Criado por Lucas M. Dutra - <a href="mailto:dutra.astro@gmail.com">Email</a> | <a href="https://github.com/terremoth">GitHub</a> | <a href="https://facebook.com/0day1337">Facebook</a>
-        <br>
-        <small><a href="http://bit.ly/lanche-whats">Shortlink para esta página</a> - Pax Profundis</small>
+<head>
+    <title>Lanche pelo WhatsApp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link media="all" href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+    <link rel="shortcut icon" href="http://www.icons101.com/icon_ico/id_13859/burger.ico" type="image/x-icon" />
+    <meta name="description" content="Peça lanche facilmente pelo WhatsApp com essa ferramenta" />
+    <meta name="keywords" content="lanche, whatsapp, whats, comida, hamburger" />
+    <meta name="robots" content="index, follow" />
+    <link rel="manifest" href="manifest.json">
 
-        </footer>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script>
-            var lanches = ['X-Burger', 'X-Salada', 'X-Egg', 'X-Frango', 'X-Calabresa', 'X-Bacon', 'X-Dog', 'X-Tudo', 'Cachorro quente normal', 'Cachorro quente prensado'];
-            var itens   = ['pão', 'carne', 'queijo', 'presunto', 'frango', 'bacon', 'calabresa', 'salsicha', 'ovo', 'ovo de codorna', 'alface', 'tomate', 'cebola', 'pepino', 'cenoura', 'milho', 'ervilha', 'maionese', 'ketchup', 'cheddar', 'catupiry', 'queijo ralado'];
-            
-            $(function() {
-                lanches.forEach(function (item) {
-                    $('.lanche').append("<option value='"+item+"'>"+item+"</option>");
-                });
-                
-                itens.forEach(function (item) {
-                    $('.itens').append("<option value='"+item+"'>"+item+"</option>");
-                });        
-                
-                $('select[multiple] > option').mousedown(function(e) {
-                    e.preventDefault();
-                    var originalScrollTop = $(this).parent().scrollTop();
-                    $(this).prop('selected', $(this).prop('selected') ? false : true);
-                    var self = this;
-                    $(this).parent().focus();
-                    setTimeout(function() {
-                        $(self).parent().scrollTop(originalScrollTop);
-                    }, 0);
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-                    return false;
-                });
-                
-                $('.lanche,.itens,textarea').change(montaPedido);
-                $('.lanche,.itens').click(montaPedido);
-                
-                function montaPedido() {
-                    var textComposer = $('.msg').val()+" um "+$('.lanche').val();
-                    var retirar = $('.itens').val();
+    <!-- FontAwesome -->
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css' integrity='sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU' crossorigin='anonymous'>
 
-                    if (retirar) {
-                        retirar.forEach(function(item) {
-                            textComposer += " sem "+item+";"
-                        });
-                    }
-                    
-                    textComposer += " "+$('.msg-complementar').val();
-                    
-                    $('output').html(textComposer);
-                }  
+    <!-- Estilo CSS -->
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
 
-                montaPedido();
-                
-                $('.pedir').click(function () {
-                    var tel = $('.tel').val();
-                    if (!tel) {
-                        return alert("O número do telefone é obrigatório!");
-                    } 
-                    var tel = tel.replace(/[^\d]/g, '');
-                    var api = window.open("https://api.whatsapp.com/send?phone=55"+tel+"&text="+$('output').html());
-                });
-            });
-            
-        </script>
-    </body>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="mt-4">Peça seu lanche pelo Whatsapp</h1>
+                <div class="alert alert-warning" role="alert">
+                    <h6><strong>Atenção:</strong> Para aplicação funcionar, você precisa estar logado no WhatsApp Web</h6>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <fieldset>
+                        <legend>
+                            <h2>Personalize seu pedido</h2>
+                        </legend>
+                        <label for="numero-lanchonete">Número da lanchonete:</label>
+                        <input class="form-control" id="numero-lanchonete" title='Não precisa colocar o "55" nem "+55"' type="tel" class="tel" placeholder="DDD + número">
+                        <br><br>
+                        <label for="mensagem">Mensagem:</label><br>
+                        <textarea class="msg form-control" id="mensagem" rows="4" cols="40" placeholder="Personalize sua mensagem: ex.: Olá, gostaria de fazer um pedido"></textarea>
+                        <hr>
+                        <label for="lanches">Escolha seu lanche:</label>
+                        <select class="lanche form-control" id="lanches"></select>
+                        <br><br>
+                        <label for="retirar">Retirar itens do lanche:</label><br>
+                        <select multiple="multiple" size="15" class="itens form-control" id="retirar"></select>
+                        <br>
+                        <hr>
+                        <label for="mensagem-adicional">Mensagem posterior adicional:</label><br>
+                        <textarea class="msg-complementar form-control" rows="4" cols="40" placeholder="ex.: Quanto tempo até a entrega?"></textarea>
+                    </fieldset>
+                </div>
+
+                <h3 class="mt-4">Revise seu pedido:</h3>
+                <output></output>
+                <br><br>
+                <button class="pedir btn btn-success btn-lg" type="button">Pedir Lanche!</button>
+
+                <footer class="mb-4">
+                    <a href="http://www.reliablecounter.com" target="_blank"><img src="https://www.reliablecounter.com/count.php?page=terremoth.github.io/lanchepelowhats&digit=style/plain/3/&reloads=1"></a> Visualizações
+                    <hr />
+                    Criado por Lucas M. Dutra - <a href="mailto:dutra.astro@gmail.com">Email</a> | <a href="https://github.com/terremoth">GitHub</a> | <a href="https://facebook.com/0day1337">Facebook</a>
+                    <br>
+                    Colaborador: Mário Augusto Paglia Júnior - <a href="https://h1code.com.br">Site</a> | <a href="https://github.com/agenciah1code">GitHub</a>
+                    <br>
+                    <small><a href="http://bit.ly/lanche-whats">Shortlink para esta página</a> - Pax Profundis</small>
+                </footer>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JS do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- Validação de campos com Mask jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <!-- Efeitos JS personalizados -->
+    <script src="js/efeitos.js"></script>
+
+</body>
 </html>
