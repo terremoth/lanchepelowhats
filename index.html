@@ -17,6 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 -->
 <html lang="pt-br">
+
 <head>
     <title>Lanche pelo WhatsApp</title>
     <meta charset="UTF-8">
@@ -34,8 +35,17 @@
     <!-- FontAwesome -->
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css' integrity='sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU' crossorigin='anonymous'>
 
-    <!-- Estilo CSS -->
-    <link rel="stylesheet" href="css/estilo.css">
+    <!-- Personalização CSS -->
+    <style>
+        html, body {
+            font-family: "Open Sans", sans-serif;
+            text-align: center;
+        }
+
+        footer {
+            margin-top: 100px;
+        }
+    </style>
 </head>
 
 <body>
@@ -73,7 +83,7 @@
                 <h3 class="mt-4">Revise seu pedido:</h3>
                 <output></output>
                 <br><br>
-                <button class="pedir btn btn-success btn-lg" type="button">Pedir Lanche!</button>
+                <button class="pedir btn btn-success btn-lg" type="button"><i class="fas fa-utensils"></i> Pedir Lanche!</button>
 
                 <footer class="mb-4">
                     <a href="http://www.reliablecounter.com" target="_blank"><img src="https://www.reliablecounter.com/count.php?page=terremoth.github.io/lanchepelowhats&digit=style/plain/3/&reloads=1"></a> Visualizações
@@ -97,8 +107,82 @@
     <!-- Validação de campos com Mask jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 
-    <!-- Efeitos JS personalizados -->
-    <script src="js/efeitos.js"></script>
+    <!-- JavaScript Personalizado -->
+    <script>
+        /**
+         * Bloco de validações gerais (funcionamento da aplicação)
+         */
 
+        var lanches = ['X-Burger', 'X-Salada', 'X-Egg', 'X-Frango', 'X-Calabresa', 'X-Bacon', 'X-Dog', 'X-Tudo', 'Cachorro quente normal', 'Cachorro quente prensado'];
+        var itens = ['pão', 'carne', 'queijo', 'presunto', 'frango', 'bacon', 'calabresa', 'salsicha', 'ovo', 'ovo de codorna', 'alface', 'tomate', 'cebola', 'pepino', 'cenoura', 'milho', 'ervilha', 'maionese', 'ketchup', 'cheddar', 'catupiry', 'queijo ralado'];
+
+        $(function () {
+            lanches.forEach(function (item) {
+                $('.lanche').append("<option value='" + item + "'>" + item + "</option>");
+            });
+
+            itens.forEach(function (item) {
+                $('.itens').append("<option value='" + item + "'>" + item + "</option>");
+            });
+
+            $('select[multiple] > option').mousedown(function (e) {
+                e.preventDefault();
+                var originalScrollTop = $(this).parent().scrollTop();
+                $(this).prop('selected', $(this).prop('selected') ? false : true);
+                var self = this;
+                $(this).parent().focus();
+                setTimeout(function () {
+                    $(self).parent().scrollTop(originalScrollTop);
+                }, 0);
+
+                return false;
+            });
+
+            $('.lanche,.itens,textarea').change(montaPedido);
+            $('.lanche,.itens').click(montaPedido);
+
+            function montaPedido() {
+                var textComposer = $('.msg').val() + " um " + $('.lanche').val();
+                var retirar = $('.itens').val();
+
+                if (retirar) {
+                    retirar.forEach(function (item) {
+                        textComposer += " sem " + item + ";"
+                    });
+                }
+
+                textComposer += " " + $('.msg-complementar').val();
+
+                $('output').html(textComposer);
+            }
+
+            montaPedido();
+
+            $('.pedir').click(function () {
+                var tel = $('.tel').val();
+                if (!tel) {
+                    return alert("O número do telefone é obrigatório!");
+                }
+                var tel = tel.replace(/[^\d]/g, '');
+                var api = window.open("https://api.whatsapp.com/send?phone=55" + tel + "&text=" + $('output').html());
+            });
+        });
+
+        /**
+         * Bloco de validação de formulários
+         */
+
+        var SPMaskBehavior = function (val) {
+                return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+            },
+            spOptions = {
+                onKeyPress: function (val, e, field, options) {
+                    field.mask(SPMaskBehavior.apply({}, arguments), options);
+                }
+            };
+
+        $('#numero-lanchonete').mask(SPMaskBehavior, spOptions);
+    </script>
 </body>
+
 </html>
