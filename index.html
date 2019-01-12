@@ -16,112 +16,151 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>
 -->
 <html lang="pt-br">
-    <head>
-        <title>Lanche pelo WhatsApp</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link media="all" href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
-        <link rel="shortcut icon" href="http://www.icons101.com/icon_ico/id_13859/burger.ico" type="image/x-icon" />
-        <meta name="description" content="Peça lanche facilmente pelo WhatsApp com essa ferramenta" />
-        <meta name="keywords" content="lanche, whatsapp, whats, comida, hamburger" />
-        <meta name="robots" content="index, follow" />
-        <link rel="manifest" href="manifest.json">
-        <style>*{font-family: "Open Sans", sans-serif;}</style>
-    </head>
-    <body>
-        <h1>Peça seu lanche</h1>
-        <h6>* Para a aplicação funcionar, você precisa estar logado no WhatsApp Web</h6>
-<!--        <p>
-            Lembrar minhas escolhas: <input type="checkbox">        
-        </p>-->
-        <fieldset>
-            <legend>Personalizar</legend>
-            Número da lanchonete: <input title='Não precisa colocar o "55" nem "+55"' type="tel" class="tel" placeholder="DDD + número">
-            <br><br>
-            Mensagem:<br>
-            <textarea class="msg" rows="4" cols="40" placeholder="Personalize sua mensagem: ex.: Olá, gostaria de fazer um pedido">Olá, gostaria de fazer um pedido:</textarea>
-            <hr>
-            Lanche(s): 
-            <select class="lanche"></select>
-            <br><br>
-            <strong>Retirar itens</strong>: <br>
-            <select multiple="multiple" size="15" class="itens"></select>
-            <br><br>
-            Mensagem posterior adicional:<br>
-            <textarea class="msg-complementar" rows="4" cols="40" placeholder="ex.: Quanto tempo até a entrega?">Quanto tempo até a entrega?</textarea>
-        </fieldset>
-        <h4>Resultado final:</h4>
+<head>
+    <title>Lanche pelo WhatsApp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link media="all" href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+    <link rel="shortcut icon" href="http://www.icons101.com/icon_ico/id_13859/burger.ico" type="image/x-icon" />
+    <meta name="description" content="Peça lanche facilmente pelo WhatsApp com essa ferramenta" />
+    <meta name="keywords" content="lanche, whatsapp, whats, comida, hamburger" />
+    <meta name="robots" content="index, follow" />
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <style>
+        *{
+            font-family: "Open Sans", sans-serif;
+        }
+
+        footer {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron jumbotron-fluid">
+
+    <div class="container text-center">
+        <img width="150px" src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIxIC0xNiA1MTEuOTk5IDUxMSIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4Ij48cGF0aCBkPSJtNDU0LjE4MzU5NCAyOTUuMjE4NzVoLTM5Ni4xOTE0MDZjLTEzLjYwOTM3NiAwLTI0LjY0NDUzMiAxMS4wMzEyNS0yNC42NDQ1MzIgMjQuNjQ0NTMxdjIxLjU4NTkzOGMwIDUuMzU1NDY5IDQuMzQzNzUgOS42OTkyMTkgOS43MDMxMjUgOS42OTkyMTloNDI2LjA3ODEyNWM1LjM1NTQ2OSAwIDkuNjk5MjE5LTQuMzQzNzUgOS42OTkyMTktOS42OTkyMTl2LTIxLjU4NTkzOGMwLTEzLjYxMzI4MS0xMS4wMzEyNS0yNC42NDQ1MzEtMjQuNjQ0NTMxLTI0LjY0NDUzMXptMCAwIiBmaWxsPSIjOTEyYzJjIi8+PHBhdGggZD0ibTQ1NC4xODM1OTQgMjk1LjIxODc1aC0zMy4xOTUzMTN2NTUuOTMzNTk0aDQ4LjE0MDYyNWM1LjM1OTM3NSAwIDkuNjk5MjE5LTQuMzQzNzUgOS42OTkyMTktOS43MDMxMjV2LTIxLjU4NTkzOGMwLTEzLjYxMzI4MS0xMS4wMzEyNS0yNC42NDQ1MzEtMjQuNjQ0NTMxLTI0LjY0NDUzMXptMCAwIiBmaWxsPSIjN2MxZTFlIi8+PHBhdGggZD0ibTQ3MC43NTc4MTIgMjY1Ljc3NzM0NGMxMi44MzIwMzIgMCAyMy42NDg0MzggMTAuNjU2MjUgMjMuNjYwMTU3IDI0LjAzNTE1Ni4wMTE3MTkgMTkuMTA1NDY5LTIxLjc2OTUzMSAyOS4yMTQ4NDQtNDcuMDcwMzEzIDI1LjUxMTcxOS0yMy42MzI4MTItMy40NTcwMzEtMjMuOTI5Njg3LTE0LjMzMjAzMS00Ny44NjMyODEtMTQuMzMyMDMxLTIzLjkyOTY4NyAwLTIzLjkyOTY4NyAxNC4zMzIwMzEtNDcuODYzMjgxIDE0LjMzMjAzMS0yMy45Mjk2ODggMC0yMy45Mjk2ODgtMTQuMzMyMDMxLTQ3Ljg1OTM3NS0xNC4zMzIwMzEtMjMuOTI5Njg4IDAtMjMuOTI5Njg4IDE0LjMzMjAzMS00Ny44NTkzNzUgMTQuMzMyMDMxLTIzLjkzMzU5NCAwLTIzLjkyOTY4OC0xNC4zMzIwMzEtNDcuODYzMjgyLTE0LjMzMjAzMS0yMy45Mjk2ODcgMC0yMy45Mjk2ODcgMTQuMzMyMDMxLTQ3Ljg1OTM3NCAxNC4zMzIwMzEtMjMuOTI5Njg4IDAtMjMuOTI5Njg4LTE0LjMzMjAzMS00Ny44NjMyODItMTQuMzMyMDMxLTIzLjkyOTY4NyAwLTI0LjIzMDQ2OCAxMC44NzEwOTMtNDcuODU5Mzc1IDE0LjMzMjAzMS0yNS4zMDQ2ODcgMy43MDMxMjUtNDcuMDgyMDMxLTYuNDA2MjUtNDcuMDcwMzEyLTI1LjUxMTcxOS4wMDc4MTItMTMuMzc4OTA2IDEwLjgyNDIxOS0yNC4wMzUxNTYgMjMuNjU2MjUtMjQuMDM1MTU2em0wIDAiIGZpbGw9IiNhMGU1NTciLz48cGF0aCBkPSJtNDk0LjQxNzk2OSAyODkuODEyNWMtLjAxMTcxOS0xMy4zNzg5MDYtMTAuODI4MTI1LTI0LjAzNTE1Ni0yMy42NjAxNTctMjQuMDM1MTU2aC0zNS45MTAxNTZ2NDYuNDU3MDMxYzMuMzk0NTMyIDEuMjUzOTA2IDcuNDAyMzQ0IDIuMzQzNzUgMTIuNSAzLjA4OTg0NCAyNS4zMDA3ODIgMy43MDMxMjUgNDcuMDgyMDMyLTYuNDA2MjUgNDcuMDcwMzEzLTI1LjUxMTcxOXptMCAwIiBmaWxsPSIjOTNjYzRhIi8+PHBhdGggZD0ibTQ4NC4zMTI1IDM0Ni4xODM1OTRoLTQ1Ni42MjVjLTExLjE0NDUzMSAwLTIwLjE3NTc4MSA5LjAzNTE1Ni0yMC4xNzU3ODEgMjAuMTc1NzgxIDAgNTcuOTI5Njg3IDQ2Ljk2MDkzNyAxMDQuODkwNjI1IDEwNC44OTA2MjUgMTA0Ljg5MDYyNWgyODcuMTk1MzEyYzU3LjkyOTY4OCAwIDEwNC44OTA2MjUtNDYuOTYwOTM4IDEwNC44OTA2MjUtMTA0Ljg5MDYyNSAwLTExLjE0MDYyNS05LjAzNTE1Ni0yMC4xNzU3ODEtMjAuMTc1NzgxLTIwLjE3NTc4MXptMCAwIiBmaWxsPSIjZWZhMzM1Ii8+PHBhdGggZD0ibTQ4NC4zMTI1IDM0Ni4xODM1OTRoLTM3LjU2MjV2NDAuMzU1NDY4YzAgNDYuNzg1MTU3LTM3LjkyOTY4OCA4NC43MTQ4NDQtODQuNzE0ODQ0IDg0LjcxNDg0NGgzNy41NjI1YzU3LjkyOTY4OCAwIDEwNC44OTA2MjUtNDYuOTY0ODQ0IDEwNC44OTA2MjUtMTA0Ljg5NDUzMSAwLTExLjE0MDYyNS05LjAzNTE1Ni0yMC4xNzU3ODEtMjAuMTc1NzgxLTIwLjE3NTc4MXptMCAwIiBmaWxsPSIjZmQ4ZjMxIi8+PHBhdGggZD0ibTQ1NC4wOTM3NSAyNDAuMDkzNzVoLTM5Ni4xODc1Yy0xMy42MTMyODEgMC0yNC42NDQ1MzEtMTEuMDMxMjUtMjQuNjQ0NTMxLTI0LjY0NDUzMXYtMjEuNTg1OTM4YzAtNS4zNTkzNzUgNC4zNDM3NS05LjcwMzEyNSA5LjY5OTIxOS05LjcwMzEyNWg0MjYuMDc4MTI0YzUuMzU1NDY5IDAgOS42OTkyMTkgNC4zNDM3NSA5LjY5OTIxOSA5LjcwMzEyNXYyMS41ODU5MzhjMCAxMy42MTMyODEtMTEuMDMxMjUgMjQuNjQ0NTMxLTI0LjY0NDUzMSAyNC42NDQ1MzF6bTAgMCIgZmlsbD0iI2ZjNGU1MSIvPjxwYXRoIGQ9Im00NjkuMDM5MDYyIDE4NC4xNjAxNTZoLTQ3Ljk2NDg0M3Y0MC45OTIxODhjMCA4LjI1LTYuNjg3NSAxNC45NDE0MDYtMTQuOTQxNDA3IDE0Ljk0MTQwNmg0Ny45NjQ4NDRjMTMuNjA5Mzc1IDAgMjQuNjQ0NTMyLTExLjAzMTI1IDI0LjY0NDUzMi0yNC42NDQ1MzF2LTIxLjU4NTkzOGMtLjAwMzkwNy01LjM1OTM3NS00LjM0NzY1Ny05LjcwMzEyNS05LjcwMzEyNi05LjcwMzEyNXptMCAwIiBmaWxsPSIjZWEzOTQyIi8+PHBhdGggZD0ibTQ3NC45MDYyNSAyMzUuNDEwMTU2aC00MzcuMzQ3NjU2Yy05LjkxNzk2OSAwLTE4LjMzOTg0NCA4LjExNzE4OC0xOC4xNTYyNSAxOC4wMzEyNS4xNzk2ODcgOS42MTcxODggOC4wMzEyNSAxNy4zNTU0NjkgMTcuNjkxNDA2IDE3LjM1NTQ2OWgyNzcuODc1YzQuNTE1NjI1IDAgOC44Nzg5MDYgMS42MTMyODEgMTIuMzA4NTk0IDQuNTUwNzgxbDM5LjQzNzUgMzMuNzkyOTY5YzExLjUxOTUzMSA5Ljg3MTA5NCAyOC43MTQ4NDQgOS4xMjg5MDYgMzkuMzQ3NjU2LTEuNjkxNDA2bDMwLjQ0OTIxOS0zMC45OTIxODhjMy41NTQ2ODctMy42MjEwOTMgOC40MTc5NjktNS42NjAxNTYgMTMuNDkyMTg3LTUuNjYwMTU2aDI0LjQ0MTQwNmM5LjkxNDA2MyAwIDE4LjMzOTg0NC04LjExMzI4MSAxOC4xNTIzNDQtMTguMDMxMjUtLjE3OTY4Ny05LjYxNzE4Ny04LjAzMTI1LTE3LjM1NTQ2OS0xNy42OTE0MDYtMTcuMzU1NDY5em0wIDAiIGZpbGw9IiNmY2NmM2YiLz48cGF0aCBkPSJtMjU2IDguMDExNzE5Yy0yMzEuMzU5Mzc1LjA4NTkzNy0yNDguNDg4MjgxIDE1Mi43MDcwMzEtMjQ4LjQ4ODI4MSAxNzQuMzIwMzEyIDAgMTEuMTQ0NTMxIDkuMDM1MTU2IDIwLjE3NTc4MSAyMC4xNzU3ODEgMjAuMTc1NzgxaDQ1Ni42MjVjMTEuMTQwNjI1IDAgMjAuMTc1NzgxLTkuMDMxMjUgMjAuMTc1NzgxLTIwLjE3NTc4MSAwLTIxLjYxMzI4MS0xNy4xMjg5MDYtMTc0LjIzNDM3NS0yNDguNDg4MjgxLTE3NC4zMjAzMTJ6bTAgMCIgZmlsbD0iI2VmYTMzNSIvPjxwYXRoIGQ9Im01MDQuNDg0Mzc1IDE4MS43NTc4MTJjMC0uMDYyNS0uMDAzOTA2LS4xMjg5MDYtLjAwMzkwNi0uMTk1MzEyIDAtLjE0NDUzMS0uMDAzOTA3LS4yOTI5NjktLjAwNzgxMy0uNDQ1MzEyLS4wMDM5MDYtLjA3MDMxMy0uMDAzOTA2LS4xNDQ1MzItLjAwNzgxMi0uMjE4NzUtLjAwMzkwNi0uMTU2MjUtLjAwNzgxMy0uMzIwMzEzLS4wMTU2MjUtLjQ4NDM3NiAwLS4wNzgxMjQtLjAwMzkwNy0uMTUyMzQzLS4wMDc4MTMtLjIzMDQ2OC0uMDA3ODEyLS4xNzk2ODgtLjAxNTYyNS0uMzYzMjgyLS4wMjM0MzctLjU1MDc4Mi0uMDAzOTA3LS4wNzAzMTItLjAwNzgxMy0uMTM2NzE4LS4wMTE3MTktLjIwMzEyNC0uMDA3ODEyLS4yMjI2NTctLjAyMzQzOC0uNDQ5MjE5LS4wMzUxNTYtLjY4MzU5NC0uMDAzOTA2LS4wNDI5NjktLjAwMzkwNi0uMDgyMDMyLS4wMDc4MTMtLjEyMTA5NC0uMDg1OTM3LTEuNDYwOTM4LS4yMjY1NjItMy4xNjAxNTYtLjQzMzU5My01LjA2MjUgMC0uMDAzOTA2IDAtLjAwNzgxMiAwLS4wMDc4MTItNC4yNDIxODgtMzguOTk2MDk0LTM3LjMyODEyNi0xNjUuNDY0ODQ0LTI0Ny45Mjk2ODgtMTY1LjU0Mjk2OS0xMC4wMjM0MzguMDAzOTA2LTE5LjYzNjcxOS4zMDA3ODEtMjguODcxMDk0Ljg1MTU2MiAxNDAuMTYwMTU2IDguMzk4NDM4IDE5MS40MDIzNDQgNzcuNDI1NzgxIDIwOS43NDIxODggMTI2LjQ4ODI4MSA3LjcxNDg0NCAyMC42NDQ1MzItNy43MjI2NTYgNDIuNjIxMDk0LTI5Ljc1NzgxMyA0Mi42MjEwOTRoLTM3OS40MjU3ODFjLTguMzA4NTk0IDAtMTUuNDQxNDA2LTUuMDI3MzQ0LTE4LjUzNTE1Ni0xMi4yMDMxMjUtMS4yODUxNTYgNy42NTYyNS0xLjY0MDYyNSAxMy40NjA5MzgtMS42NDA2MjUgMTYuNTYyNSAwIDExLjE0NDUzMSA5LjAzNTE1NiAyMC4xNzU3ODEgMjAuMTc1NzgxIDIwLjE3NTc4MWg0NTYuNjI1YzExLjE0MDYyNSAwIDIwLjE3NTc4MS05LjAzMTI1IDIwLjE3NTc4MS0yMC4xNzU3ODEgMC0uMTc5Njg3IDAtLjM3NS0uMDAzOTA2LS41NzQyMTl6bTAgMCIgZmlsbD0iI2ZkOGYzMSIvPjxwYXRoIGQ9Im00NzQuOTA2MjUgMjM1LjQxMDE1NmgtNDAuMDU4NTk0djQyLjczODI4MmwxLjY2NDA2My0xLjY5MTQwN2MzLjU1NDY4Ny0zLjYyMTA5MyA4LjQxNzk2OS01LjY2MDE1NiAxMy40OTIxODctNS42NjAxNTZoMjQuNDQxNDA2YzkuOTE0MDYzIDAgMTguMzM5ODQ0LTguMTE3MTg3IDE4LjE1MjM0NC0xOC4wMzEyNS0uMTc5Njg3LTkuNjE3MTg3LTguMDMxMjUtMTcuMzU1NDY5LTE3LjY5MTQwNi0xNy4zNTU0Njl6bTAgMCIgZmlsbD0iI2VmYzAzYyIvPjxwYXRoIGQ9Im00ODYuMzM5ODQ0IDMzOC43NTM5MDZ2LTE4Ljg5MDYyNWMwLTEuMTMyODEyLS4wODIwMzItMi4yNjE3MTktLjE5OTIxOS0zLjM3ODkwNiAxLjg2MzI4MS0xLjExNzE4NyAzLjU5Mzc1LTIuMzUxNTYzIDUuMTY0MDYzLTMuNzEwOTM3IDYuOTU3MDMxLTYuMDE1NjI2IDEwLjYyODkwNi0xMy45NTcwMzIgMTAuNjIxMDkzLTIyLjk2NDg0NC0uMDAzOTA2LTcuNzA3MDMyLTIuODM5ODQzLTE1LjA1NDY4OC03Ljc0MjE4Ny0yMC43MzA0NjkgMy44NDc2NTYtNC41NzAzMTMgNi4wMzUxNTYtMTAuMzkwNjI1IDUuOTIxODc1LTE2LjQ1MzEyNS0uMTk5MjE5LTEwLjc2OTUzMS03LjI5Njg3NS0xOS45NDkyMTktMTYuOTkyMTg4LTIzLjMzMjAzMSAyLjAxMTcxOS00LjE5NTMxMyAzLjEzNjcxOS04Ljg5MDYyNSAzLjEzNjcxOS0xMy44NDM3NXYtNS41MDM5MDdjMTQuMzY3MTg4LTEgMjUuNzUtMTMgMjUuNzUtMjcuNjEzMjgxIDAtMi4xMTMyODEtLjQ0NTMxMi01Mi4zMDg1OTMtMzkuMTY3OTY5LTk5Ljk2ODc1LTE5LjY3OTY4Ny0yNC4yMjI2NTYtNDUuNzMwNDY5LTQzLjQwNjI1LTc3LjQzNzUtNTcuMDE5NTMxLTM4LjM1MTU2Mi0xNi40NjQ4NDQtODUuMjUtMjQuODI0MjE5LTEzOS4zOTg0MzctMjQuODQzNzUtNjguMTk5MjE5LjAyMzQzOC0xMjQuNTE1NjI1IDEzLjIxMDkzOC0xNjcuMzg2NzE5IDM5LjE4NzUtMy41NTA3ODEgMi4xNTIzNDQtNC42ODM1OTQgNi43Njk1MzEtMi41MzUxNTYgMTAuMzE2NDA2IDIuMTUyMzQzIDMuNTQ2ODc1IDYuNzY5NTMxIDQuNjgzNTk0IDEwLjMxNjQwNiAyLjUzMTI1IDQwLjQ5NjA5NC0yNC41MzUxNTYgOTQuMTk1MzEzLTM2Ljk4ODI4MSAxNTkuNjA1NDY5LTM3LjAxMTcxOCA1Mi4wOTc2NTYuMDE5NTMxIDk3IDcuOTY0ODQzIDEzMy40NzI2NTYgMjMuNjI1IDI5LjQ0OTIxOSAxMi42NDQ1MzEgNTMuNTc0MjE5IDMwLjM3MTA5MyA3MS43MDMxMjUgNTIuNjg3NSAzNS4zOTg0MzcgNDMuNTY2NDA2IDM1LjgwNDY4NyA4OC42MDE1NjIgMzUuODA0Njg3IDkwLjQ5NjA5MyAwIDYuOTg0Mzc1LTUuNjc5Njg3IDEyLjY2NDA2My0xMi42NjQwNjIgMTIuNjY0MDYzaC00NTYuNjI1Yy02Ljk4NDM3NSAwLTEyLjY2NDA2Mi01LjY3OTY4OC0xMi42NjQwNjItMTIuNjY0MDYzIDAtMS44ODY3MTkuMjQ2MDkzLTE5LjEyNSA4LjgzNTkzNy00Mi44MTY0MDYgOS4zOTQ1MzEtMjUuOTIxODc1IDI0LjY3OTY4Ny00OC40NjQ4NDQgNDUuNDIxODc1LTY3IDMuMDkzNzUtMi43NjU2MjUgMy4zNjMyODEtNy41MTU2MjUuNTk3NjU2LTEwLjYwNTQ2OS0yLjc2NTYyNS0zLjA5Mzc1LTcuNTExNzE4LTMuMzU5Mzc1LTEwLjYwNTQ2OC0uNTk3NjU2LTU4LjU5NzY1NyA1Mi4zNjcxODgtNTkuMjczNDM4IDExOC4yNDIxODgtNTkuMjczNDM4IDEyMS4wMTk1MzEgMCAxNC42MTMyODEgMTEuMzgyODEyIDI2LjYxMzI4MSAyNS43NDYwOTQgMjcuNjEzMjgxdjUuNTAzOTA3YzAgNC45OTYwOTMgMS4xNDg0MzcgOS43MzA0NjkgMy4xOTE0MDYgMTMuOTUzMTI1LTMuNjc1NzgxIDEuMzEyNS03LjA2MjUgMy40NDUzMTItOS44MzU5MzggNi4yNjk1MzEtNC43NzM0MzcgNC44NjMyODEtNy4zMzIwMzEgMTEuMjI2NTYzLTcuMjA3MDMxIDE3LjkxMDE1Ni4xMDU0NjkgNS43OTI5NjkgMi4xNzk2ODggMTEuMjEwOTM4IDUuNzE4NzUgMTUuNTA3ODEzLTQuODk4NDM3IDUuNjc1NzgxLTcuNzMwNDY5IDEzLjAyMzQzNy03LjczNDM3NSAyMC43MTg3NS0uMDA3ODEyIDkuMDA3ODEyIDMuNjY0MDYzIDE2Ljk0OTIxOCAxMC42MjEwOTQgMjIuOTY0ODQ0IDEuNjY3OTY5IDEuNDQxNDA2IDMuNTE5NTMxIDIuNzQyMTg3IDUuNTExNzE5IDMuOTEwMTU2LS4xMDU0NjkgMS4wNTQ2ODctLjE3NTc4MSAyLjExMzI4MS0uMTc1NzgxIDMuMTc5Njg3djE4Ljg3NWMtMTQuNDA2MjUuOTYwOTM4LTI1LjgzNTkzOCAxMi45NzY1NjMtMjUuODM1OTM4IDI3LjYyMTA5NCAwIDYxLjk4MDQ2OSA1MC40MjU3ODEgMTEyLjQwMjM0NCAxMTIuNDAyMzQ0IDExMi40MDIzNDRoMjg3LjE5NTMxMmM2MS45NzY1NjMgMCAxMTIuNDAyMzQ0LTUwLjQyMTg3NSAxMTIuNDAyMzQ0LTExMi40MDIzNDQgMC0xNC41ODIwMzEtMTEuMzM1OTM4LTI2LjU2MjUtMjUuNjYwMTU2LTI3LjYwNTQ2OXptLTQuODU5Mzc1LTM3LjM0Mzc1Yy02LjkwNjI1IDUuOTcyNjU2LTE5LjU2NjQwNyA4LjQ1NzAzMi0zMy4wNDY4NzUgNi40ODQzNzUtOS41NDI5NjktMS4zOTg0MzctMTQuNTY2NDA2LTQuMDU0Njg3LTE5Ljg4MjgxMy02Ljg3MTA5My0xLjIyMjY1Ni0uNjQ0NTMyLTIuNDU3MDMxLTEuMzAwNzgyLTMuNzQ2MDkzLTEuOTM3NWwxNy4wNjI1LTE3LjM2NzE4OGMyLjEyODkwNi0yLjE2Nzk2OSA1LjA5Mzc1LTMuNDEwMTU2IDguMTM2NzE4LTMuNDEwMTU2aDI0LjQzNzVjMi4zMzU5MzggMCA0LjYzMjgxMy0uMzE2NDA2IDYuODY3MTg4LS45NDUzMTMgMy41MDc4MTIgMy4xMTcxODggNS41OTM3NSA3LjY1NjI1IDUuNTk3NjU2IDEyLjQ1NzAzMSAwIDQuNTc0MjE5LTEuODI0MjE5IDguNDc2NTYzLTUuNDI1NzgxIDExLjU4OTg0NHptLTQ0MC43MTA5MzgtOTEuMzg2NzE4aDQzMC40NjA5Mzh2NS40MjU3ODFjMCA1LjgzMjAzMS0yLjkzMzU5NCAxMC45ODgyODEtNy4zOTg0MzggMTQuMDgyMDMxLS4xMjUuMDg5ODQ0LS4yNTM5MDYuMTcxODc1LS4zODI4MTIuMjUzOTA2LS4zMjAzMTMuMjEwOTM4LS42NDg0MzguNDEwMTU2LS45ODA0NjkuNTk3NjU2LS4xMTcxODguMDY2NDA3LS4yMzA0NjkuMTMyODEzLS4zNDM3NS4xOTUzMTMtLjQyNTc4MS4yMjY1NjMtLjg1OTM3NS40Mzc1LTEuMzA0Njg4LjYyODkwNi0uMDI3MzQzLjAxMTcxOS0uMDUwNzgxLjAyMzQzOC0uMDc0MjE4LjAzNTE1Ny0uNDk2MDk0LjIwNzAzMS0xLjAwMzkwNi4zOTQ1MzEtMS41MjM0MzguNTU0Njg3LS4wNTg1OTQuMDE5NTMxLS4xMTcxODcuMDM1MTU2LS4xNzU3ODEuMDUwNzgxLS40MzM1OTQuMTMyODEzLS44NzUuMjQ2MDk0LTEuMzI0MjE5LjMzOTg0NC0uMTQwNjI1LjAzMTI1LS4yNzczNDQuMDU4NTk0LS40MTc5NjguMDg1OTM4LS4zODY3MTkuMDcwMzEyLS43NzczNDQuMTMyODEyLTEuMTcxODc2LjE3OTY4Ny0uMTQ4NDM3LjAxNTYyNS0uMjkyOTY4LjAzNTE1Ni0uNDQxNDA2LjA1MDc4MS0uNTI3MzQ0LjA1MDc4Mi0xLjA1ODU5NC4wODIwMzItMS41OTc2NTYuMDgyMDMyaC0zOTYuMTkxNDA2Yy05LjQ0NTMxMyAwLTE3LjEzMjgxMy03LjY4NzUtMTcuMTMyODEzLTE3LjEzMjgxM3ptLTEwLjk0NTMxMiAzNi4xNzE4NzRjMi4wNDI5NjktMi4wNzgxMjQgNC44NTkzNzUtMy4yNzM0MzcgNy43MzQzNzUtMy4yNzM0MzdoMy42NDg0MzdjNC44NzEwOTQgMi45Njg3NSAxMC41ODU5MzggNC42ODM1OTQgMTYuNjk5MjE5IDQuNjgzNTk0aDM5Ni4xODc1Yy42Njc5NjkgMCAxLjMyODEyNS0uMDI3MzQ0IDEuOTg0Mzc1LS4wNjY0MDcuMjEwOTM3LS4wMTE3MTguNDE3OTY5LS4wMzEyNS42MjUtLjA0Njg3NC40NjA5MzctLjAzOTA2My45MjE4NzUtLjA4NTkzOCAxLjM3ODkwNi0uMTQ0NTMyLjIyMjY1Ny0uMDI3MzQ0LjQ0OTIxOS0uMDUwNzgxLjY3MTg3NS0uMDgyMDMxLjU4NTkzOC0uMDg1OTM3IDEuMTY3OTY5LS4xODM1OTQgMS43NDIxODgtLjMwMDc4MS4yNDIxODctLjA1MDc4Mi40ODA0NjgtLjEwOTM3NS43MjI2NTYtLjE2NDA2My4zOTQ1MzEtLjA4OTg0My43ODkwNjItLjE4MzU5MyAxLjE3OTY4OC0uMjg5MDYyLjI5Njg3NC0uMDc4MTI1LjU5Mzc1LS4xNjQwNjMuODg2NzE4LS4yNS4zMTY0MDYtLjA5Mzc1LjYyODkwNi0uMTk5MjE5Ljk0MTQwNi0uMzAwNzgxLjMwMDc4Mi0uMDk3NjU3LjU5NzY1Ny0uMTk1MzEzLjg5NDUzMi0uMzAwNzgyLjUxMTcxOC0uMTkxNDA2IDEuMDE5NTMxLS4zOTA2MjUgMS41MTk1MzEtLjYwMTU2Mi4zMDA3ODEtLjEyODkwNi41OTc2NTYtLjI2OTUzMi44OTQ1MzEtLjQwNjI1LjI4MTI1LS4xMjg5MDYuNTU4NTk0LS4yNjE3MTkuODMyMDMyLS4zOTg0MzguMjkyOTY4LS4xNDg0MzcuNTg1OTM3LS4yOTI5NjguODc1LS40NDkyMTguMzI4MTI0LS4xNzU3ODIuNjUyMzQzLS4zNjMyODIuOTc2NTYyLS41NTA3ODIuMTk1MzEyLS4xMTMyODEuMzk0NTMxLS4yMTQ4NDQuNTg5ODQ0LS4zMzIwMzFoNC4wOTc2NTZjNS41MTE3MTkgMCAxMC4wNzgxMjUgNC40ODA0NjkgMTAuMTc5Njg4IDkuOTg0Mzc1LjA3NDIxOCAzLjgzNTkzOC0yLjI2OTUzMiA3LjQ4MDQ2OS01Ljk2NDg0NCA5LjI3NzM0NCAwIDAgMCAwLS4wMDM5MDYgMC0xLjUwMzkwNy43MzA0NjgtMy4wNzgxMjYgMS4xMDU0NjgtNC42NzU3ODIgMS4xMDU0NjhoLTI0LjQ0MTQwNmMtNy4wNDI5NjkgMC0xMy45MTQwNjIgMi44Nzg5MDctMTguODUxNTYyIDcuOTA2MjVsLTMwLjQ0OTIxOSAzMC45OTIxODhjLTcuMjU3ODEzIDcuMzkwNjI1LTE4Ljc2NTYyNSA4LjM5MDYyNS0yNy4xNjc5NjkgMi43MDcwMzEtLjE4MzU5NC0uMTI1LS4zNjMyODEtLjI1LS41NDI5NjktLjM3ODkwNi0uNDY4NzUtLjMzNTkzNy0uOTMzNTkzLS42ODc1LTEuMzgyODEyLTEuMDcwMzEzIDAtLjAwMzkwNi0uMDAzOTA3LS4wMDc4MTItLjAwNzgxMy0uMDA3ODEybC0zOS40Mzc1LTMzLjc5Mjk2OWMtNC43ODUxNTYtNC4wOTc2NTYtMTAuODkwNjI1LTYuMzU1NDY5LTE3LjE5MTQwNi02LjM1NTQ2OWgtMjc3Ljg3NWMtMS41NDY4NzUgMC0zLjA0Njg3NS0uMzU1NDY4LTQuNDY0ODQ0LTEuMDUwNzgxaC0uMDAzOTA2Yy0zLjQ1MzEyNS0xLjY5NTMxMi01LjY0MDYyNS01LjEyMTA5My01LjcxMDkzOC04LjkzNzUtLjA1MDc4MS0yLjYxNzE4Ny45ODQzNzYtNS4xNDA2MjUgMi45MTAxNTctNy4xMDU0Njl6bS00LjkyMTg3NSA0My42MjEwOTRjMC00Ljc2OTUzMSAyLjA2NjQwNi05LjI4NTE1NiA1LjU0Mjk2OC0xMi40MDIzNDQgMi4xNTYyNS41OTM3NSA0LjM3ODkwNy44OTQ1MzIgNi42NDg0MzguODk0NTMyaDI3Ny44NzVjMi43MjI2NTYgMCA1LjM1NTQ2OS45NzY1NjIgNy40MjE4NzUgMi43NDIxODdsMzEuMTg3NSAyNi43MjY1NjNjLS42MjUuMDIzNDM3LTEuMjc3MzQ0LjAzNTE1Ni0xLjk1MzEyNS4wMzUxNTYtOS44ODY3MTkgMC0xNC4zODI4MTItMi42OTE0MDYtMjAuMDcwMzEyLTYuMDk3NjU2LTYuNDQ1MzEzLTMuODU5Mzc1LTEzLjc1LTguMjM0Mzc1LTI3Ljc5Mjk2OS04LjIzNDM3NS0xNC4wMzkwNjMgMC0yMS4zNDM3NSA0LjM3NS0yNy43ODkwNjMgOC4yMzQzNzUtNS42ODc1IDMuNDA2MjUtMTAuMTc5Njg3IDYuMDk3NjU2LTIwLjA3MDMxMiA2LjA5NzY1NnMtMTQuMzgyODEzLTIuNjkxNDA2LTIwLjA3MDMxMy02LjA5NzY1NmMtNi40NDUzMTItMy44NTkzNzUtMTMuNzUtOC4yMzQzNzUtMjcuNzg5MDYyLTguMjM0Mzc1LTE0LjA0Mjk2OSAwLTIxLjM0NzY1NyA0LjM3NS0yNy43OTI5NjkgOC4yMzQzNzUtNS42ODc1IDMuNDA2MjUtMTAuMTc5Njg4IDYuMDk3NjU2LTIwLjA3MDMxMiA2LjA5NzY1Ni05Ljg5MDYyNiAwLTE0LjM4MjgxMy0yLjY5MTQwNi0yMC4wNzAzMTMtNi4wOTc2NTYtNi40NDUzMTMtMy44NTkzNzUtMTMuNzUtOC4yMzQzNzUtMjcuNzkyOTY5LTguMjM0Mzc1LTE0LjgzNTkzNyAwLTIyLjA3NDIxOCAzLjgzNTkzNy0yOS4wNzQyMTggNy41NDI5NjktNS4zMTI1IDIuODEyNS0xMC4zMzIwMzIgNS40NzI2NTYtMTkuODc1IDYuODY3MTg3LTEzLjQ4MDQ2OSAxLjk3MjY1Ni0yNi4xNDA2MjYtLjUxMTcxOS0zMy4wNDI5NjktNi40ODA0NjktMy42MDE1NjMtMy4xMTMyODEtNS40MjU3ODEtNy4wMTU2MjUtNS40MjE4NzUtMTEuNTkzNzV6bTM3NC42OTUzMTIgMTczLjkyNTc4MmgtMjg3LjE5NTMxMmMtNTMuNjk1MzEzIDAtOTcuMzc4OTA2LTQzLjY4NzUtOTcuMzc4OTA2LTk3LjM4MjgxMyAwLTYuOTg0Mzc1IDUuNjc5Njg3LTEyLjY2NDA2MyAxMi42NjQwNjItMTIuNjY0MDYzaDMzNi43MzA0NjljNC4xNDg0MzcgMCA3LjUxMTcxOS0zLjM2MzI4MSA3LjUxMTcxOS03LjUxMTcxOCAwLTQuMTQ4NDM4LTMuMzYzMjgyLTcuNTExNzE5LTcuNTExNzE5LTcuNTExNzE5aC0zMjMuNTU4NTk0di0xNi40NDkyMTljNC4yNjk1MzEuODkwNjI1IDguODE2NDA2IDEuMzU5Mzc1IDEzLjUzOTA2MyAxLjM1OTM3NSAzLjYzMjgxMiAwIDcuMzY3MTg3LS4yNzM0MzcgMTEuMTQ4NDM3LS44MjQyMTkgMTIuMTA1NDY5LTEuNzczNDM3IDE4LjgxMjUtNS4zMjQyMTggMjQuNzMwNDY5LTguNDU3MDMxIDYuMTEzMjgxLTMuMjM4MjgxIDEwLjk0MTQwNi01Ljc5Njg3NSAyMi4wNDI5NjgtNS43OTY4NzUgOS44ODY3MTkgMCAxNC4zODI4MTMgMi42OTE0MDYgMjAuMDcwMzEzIDYuMDk3NjU2IDYuNDQ1MzEzIDMuODU5Mzc2IDEzLjc1IDguMjM0Mzc2IDI3Ljc5Mjk2OSA4LjIzNDM3NiAxNC4wMzkwNjIgMCAyMS4zNDM3NS00LjM3NSAyNy43ODkwNjItOC4yMzQzNzYgNS42ODc1LTMuNDA2MjUgMTAuMTc5Njg4LTYuMDk3NjU2IDIwLjA3MDMxMy02LjA5NzY1NnMxNC4zODI4MTIgMi42OTE0MDYgMjAuMDcwMzEyIDYuMDk3NjU2YzYuNDQ1MzEzIDMuODU5Mzc2IDEzLjc1IDguMjM0Mzc2IDI3Ljc5Mjk2OSA4LjIzNDM3NiAxNC4wMzkwNjIgMCAyMS4zNDM3NS00LjM3NSAyNy43ODkwNjItOC4yMzQzNzYgNS42ODc1LTMuNDA2MjUgMTAuMTc5Njg4LTYuMDk3NjU2IDIwLjA3MDMxMy02LjA5NzY1NnMxNC4zODI4MTMgMi42OTE0MDYgMjAuMDcwMzEzIDYuMDk3NjU2YzYuNDQ1MzEyIDMuODU5Mzc2IDEzLjc1IDguMjM0Mzc2IDI3Ljc4OTA2MiA4LjIzNDM3NiA2LjY4NzUgMCAxMi4yOTY4NzUtLjk2ODc1IDE3LjY4NzUtMy4wNTQ2ODggNS4wODIwMzEgMi41MTU2MjUgMTAuNjE3MTg4IDMuNzczNDM4IDE2LjE1MjM0NCAzLjc3MzQzOCA5LjQ1NzAzMSAwIDE4Ljg5MDYyNS0zLjY0ODQzOCAyNS45NTcwMzEtMTAuODM5ODQ0bDIuMTAxNTYzLTIuMTM2NzE5YzIuODI0MjE4Ljk5NjA5NCA1LjI4OTA2MiAyLjI4OTA2MyA4LjAwNzgxMiAzLjcyNjU2MyA1LjkxNzk2OSAzLjEzMjgxMiAxMi42MjUgNi42Nzk2ODcgMjQuNzMwNDY5IDguNDUzMTI0IDMuNzgxMjUuNTU0Njg4IDcuNTE1NjI1LjgyNDIxOSAxMS4xNDg0MzcuODI0MjE5IDQuODU5Mzc1IDAgOS41MzEyNS0uNDk2MDkzIDEzLjkxMDE1Ni0xLjQzNzV2MTYuNTI3MzQ0aC03MS45NDkyMThjLTQuMTQ4NDM4IDAtNy41MTE3MTkgMy4zNjMyODEtNy41MTE3MTkgNy41MTE3MTkgMCA0LjE0ODQzNyAzLjM2MzI4MSA3LjUxMTcxOCA3LjUxMTcxOSA3LjUxMTcxOGg4NC45NDE0MDZjNi45ODQzNzUgMCAxMi42Njc5NjkgNS42Nzk2ODggMTIuNjY3OTY5IDEyLjY2NDA2My0uMDAzOTA3IDUzLjY5NTMxMy00My42ODc1IDk3LjM4MjgxMy05Ny4zODI4MTMgOTcuMzgyODEzem0wIDAiLz48L3N2Zz4K" />
+        <h1 class="display-4">Peça seu lanche</h1>
+        <p class="lead">* Para a aplicação funcionar, você precisa estar logado no WhatsApp Web</p>
+    </div>
+</div>
+<div class="container">
+    <!--        <p>
+                Lembrar minhas escolhas: <input type="checkbox">
+            </p>-->
+
+    <form action="" class="mt-3">
+        <h2>Personalizar</h2>
+        <hr class="mb-5">
+        <div class="form-group row">
+            <label class="col-md-4 col-lg-3 col-form-label" for="numerolanchonete"><i class="fas fa-phone mr-2"></i>Número da Lanchonete:</label>
+            <div class="col-md-7 col-lg-6">
+                <input id="numerolanchonete" type="tel" class="tel form-control" placeholder="DDD + número" aria-describedby="foneHelp">
+                <small id="foneHelp" class="form-text text-muted">Não precisa colocar o "55" nem "+55".</small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-lg-3 col-form-label" for="mensagem"><i class="far fa-comment mr-2"></i>Mensagem:</label>
+            <div class="col-md-7 col-lg-6">
+                <textarea id="mensagem" class="msg form-control" rows="4" cols="40" placeholder="Personalize sua mensagem: ex.: Olá, gostaria de fazer um pedido">Olá, gostaria de fazer um pedido:</textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-lg-3 col-form-label" for="lanche"><i class="fas fa-utensils mr-2"></i>Lanche:</label>
+            <div class="col-md-7 col-lg-6">
+                <select class="lanche form-control" id="lanche"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-lg-3 col-form-label" for="retirarlanche"><i class="far fa-minus-square mr-2"></i>Retirar Itens:</label>
+            <div class="form-group col-md-6">
+                <select multiple="multiple" class="itens form-control" id="retirarlanche"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-4 col-lg-3 col-form-label" for="mensagemposterior"><i class="far fa-comment mr-2"></i>Mensagem posterior adicional:</label>
+            <div class="col-md-7 col-lg-6">
+                <textarea id="mensagemposterior" class="msg-complementar form-control" rows="4" cols="40" placeholder="ex.: Quanto tempo até a entrega?">Quanto tempo até a entrega?</textarea>
+            </div>
+        </div>
+        <h2>Resultado final:</h2>
+        <hr class="my-4">
         <output></output>
-        <br><br>
-        <button class="pedir" type="button">Pedir Lanche!</button>
-        <br>
-        <br>
-        <footer>
-        <br><br><br><br>
+        <button class="pedir btn btn-outline-success d-block mt-3 mb-5 text-uppercase" type="button"><i class="far fa-thumbs-up mr-2"></i>Pedir Lanche!</button>
+    </form>
+</div><!--.container-->
+<footer class="bg-gray pt-5 pb-4">
+    <div class="container text-center">
         Views <a href="http://www.reliablecounter.com" target="_blank"><img src="https://www.reliablecounter.com/count.php?page=terremoth.github.io/lanchepelowhats&digit=style/plain/3/&reloads=1" alt="" title="" border="0"></a>
         <hr />
-        Criado por Lucas M. Dutra - <a href="mailto:dutra.astro@gmail.com">Email</a> | <a href="https://github.com/terremoth">GitHub</a> | <a href="https://facebook.com/0day1337">Facebook</a>
-        <br>
+        Criado por Lucas M. Dutra - <a href="mailto:dutra.astro@gmail.com"><i class="far fa-envelope-open mx-2"></i>Email</a> | <a href="https://github.com/terremoth"><i class="fab fa-github mx-2"></i>GitHub</a> | <a href="https://facebook.com/0day1337"><i class="fab fa-facebook-square mx-2"></i>Facebook</a>
         <small><a href="http://bit.ly/lanche-whats">Shortlink para esta página</a> - Pax Profundis</small>
+    </div>
+</footer>
 
-        </footer>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script>
-            var lanches = ['X-Burger', 'X-Salada', 'X-Egg', 'X-Frango', 'X-Calabresa', 'X-Bacon', 'X-Dog', 'X-Tudo', 'Cachorro quente normal', 'Cachorro quente prensado'];
-            var itens   = ['pão', 'carne', 'queijo', 'presunto', 'frango', 'bacon', 'calabresa', 'salsicha', 'ovo', 'ovo de codorna', 'alface', 'tomate', 'cebola', 'pepino', 'cenoura', 'milho', 'ervilha', 'maionese', 'ketchup', 'cheddar', 'catupiry', 'queijo ralado'];
-            
-            $(function() {
-                lanches.forEach(function (item) {
-                    $('.lanche').append("<option value='"+item+"'>"+item+"</option>");
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    var lanches = ['X-Burger', 'X-Salada', 'X-Egg', 'X-Frango', 'X-Calabresa', 'X-Bacon', 'X-Dog', 'X-Tudo', 'Cachorro quente normal', 'Cachorro quente prensado'];
+    var itens   = ['pão', 'carne', 'queijo', 'presunto', 'frango', 'bacon', 'calabresa', 'salsicha', 'ovo', 'ovo de codorna', 'alface', 'tomate', 'cebola', 'pepino', 'cenoura', 'milho', 'ervilha', 'maionese', 'ketchup', 'cheddar', 'catupiry', 'queijo ralado'];
+
+    $(function() {
+        lanches.forEach(function (item) {
+            $('.lanche').append("<option value='"+item+"'>"+item+"</option>");
+        });
+
+        itens.forEach(function (item) {
+            $('.itens').append("<option value='"+item+"'>"+item+"</option>");
+        });
+
+        $('select[multiple] > option').mousedown(function(e) {
+            e.preventDefault();
+            var originalScrollTop = $(this).parent().scrollTop();
+            $(this).prop('selected', $(this).prop('selected') ? false : true);
+            var self = this;
+            $(this).parent().focus();
+            setTimeout(function() {
+                $(self).parent().scrollTop(originalScrollTop);
+            }, 0);
+
+            return false;
+        });
+
+        $('.lanche,.itens,textarea').change(montaPedido);
+        $('.lanche,.itens').click(montaPedido);
+
+        function montaPedido() {
+            var textComposer = $('.msg').val()+" um "+$('.lanche').val();
+            var retirar = $('.itens').val();
+
+            if (retirar) {
+                retirar.forEach(function(item) {
+                    textComposer += " sem "+item+";"
                 });
-                
-                itens.forEach(function (item) {
-                    $('.itens').append("<option value='"+item+"'>"+item+"</option>");
-                });        
-                
-                $('select[multiple] > option').mousedown(function(e) {
-                    e.preventDefault();
-                    var originalScrollTop = $(this).parent().scrollTop();
-                    $(this).prop('selected', $(this).prop('selected') ? false : true);
-                    var self = this;
-                    $(this).parent().focus();
-                    setTimeout(function() {
-                        $(self).parent().scrollTop(originalScrollTop);
-                    }, 0);
+            }
 
-                    return false;
-                });
-                
-                $('.lanche,.itens,textarea').change(montaPedido);
-                $('.lanche,.itens').click(montaPedido);
-                
-                function montaPedido() {
-                    var textComposer = $('.msg').val()+" um "+$('.lanche').val();
-                    var retirar = $('.itens').val();
+            textComposer += " "+$('.msg-complementar').val();
 
-                    if (retirar) {
-                        retirar.forEach(function(item) {
-                            textComposer += " sem "+item+";"
-                        });
-                    }
-                    
-                    textComposer += " "+$('.msg-complementar').val();
-                    
-                    $('output').html(textComposer);
-                }  
+            $('output').html(textComposer);
+        }
 
-                montaPedido();
-                
-                $('.pedir').click(function () {
-                    var tel = $('.tel').val();
-                    if (!tel) {
-                        return alert("O número do telefone é obrigatório!");
-                    } 
-                    var tel = tel.replace(/[^\d]/g, '');
-                    var api = window.open("https://api.whatsapp.com/send?phone=55"+tel+"&text="+$('output').html());
-                });
-            });
-            
-        </script>
-    </body>
+        montaPedido();
+
+        $('.pedir').click(function () {
+            var tel = $('.tel').val();
+            if (!tel) {
+                return alert("O número do telefone é obrigatório!");
+            }
+            var tel = tel.replace(/[^\d]/g, '');
+            var api = window.open("https://api.whatsapp.com/send?phone=55"+tel+"&text="+$('output').html());
+        });
+    });
+
+</script>
+</body>
 </html>
